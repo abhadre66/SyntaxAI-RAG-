@@ -1,8 +1,8 @@
 from dotenv import load_dotenv
 import os
 
-from langchain_community.vectorstores import FAISS
 from langchain_openai import OpenAIEmbeddings, ChatOpenAI
+from langchain_pinecone import PineconeVectorStore
 from langchain_core.prompts import PromptTemplate
 
 load_dotenv()
@@ -10,10 +10,9 @@ load_dotenv()
 # --- Embeddings & Vector Store ---
 embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
 
-vector_db = FAISS.load_local(
-    "vector_store",
-    embeddings,
-    allow_dangerous_deserialization=True
+vector_db = PineconeVectorStore(
+    index_name="syntax",
+    embedding=embeddings
 )
 
 TOP_K = 3
@@ -52,7 +51,7 @@ PROMPT = PromptTemplate(
 
 
 def ask_question(question):
-    # Step 1: Retrieve top-k from FAISS
+    # Step 1: Retrieve top-k from Pinecone
     docs = vector_db.similarity_search(question, k=TOP_K)
 
     if not docs:

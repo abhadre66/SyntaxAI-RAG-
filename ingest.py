@@ -3,8 +3,9 @@ import os
 from dotenv import load_dotenv
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import TextLoader
-from langchain_community.vectorstores import FAISS
 from langchain_openai import OpenAIEmbeddings
+from langchain_pinecone import PineconeVectorStore
+from pinecone import Pinecone
 
 load_dotenv()
 
@@ -26,7 +27,7 @@ for folder in data_folders:
             loader = TextLoader(path, encoding="utf-8")
             documents = loader.load()
 
-            # ✅ load correct URL from .url file
+            # load correct URL from .url file
             url_path = path.replace(".txt", ".url")
             url = ""
 
@@ -36,7 +37,7 @@ for folder in data_folders:
 
             for doc in documents:
 
-                # 🔹 set clean source name
+                # set clean source name
                 if "realpython" in folder:
                     doc.metadata["source"] = "RealPython"
 
@@ -58,7 +59,7 @@ for folder in data_folders:
                 else:
                     doc.metadata["source"] = "Unknown"
 
-                # ✅ attach real URL
+                # attach real URL
                 doc.metadata["url"] = url
 
                 # optional
@@ -82,8 +83,15 @@ print("Total chunks created:", len(chunks))
 # embeddings
 embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
 
-# vector DB
-vector_db = FAISS.from_documents(chunks, embeddings)
-vector_db.save_local("vector_store")
+# Pinecone setup
+pc = Pinecone(api_key=os.getenv("PINECONE_API_KEY"))
+index_name = "syntax"
 
-print("Vector database created successfully!")
+# Upload chunks to Pinecone
+vector_store = PineconeVectorStore.from_documents(
+    chunks,
+    embeddings,
+    index_name=index_name
+)
+
+print("Vectors uploaded to Pinecone successfully!")

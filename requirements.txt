@@ -1,8 +1,9 @@
 langchain
 langchain-openai
 langchain-community
+langchain-pinecone
 langchain-text-splitters
-faiss-cpu
+pinecone-client
 python-dotenv
 tiktoken
 uvicorn
