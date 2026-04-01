@@ -23,9 +23,34 @@ llm = ChatOpenAI(
     temperature=0
 )
 
-# --- Prompt (fixed: includes both context and question) ---
-prompt_template = """
-You are a Python expert assistant.
+# --- Router: Classify if the message needs RAG or is just conversation ---
+router_prompt = PromptTemplate(
+    template="""Classify this user message as either "chat" or "question".
+
+- "chat" = greetings, casual talk, thank you, goodbye, or anything that does NOT need Python documentation to answer.
+- "question" = anything that needs Python knowledge, code help, debugging, or technical explanation.
+
+Respond with ONLY one word: chat or question
+
+User message: {message}""",
+    input_variables=["message"]
+)
+
+# --- Chat prompt (no RAG context needed) ---
+chat_prompt = PromptTemplate(
+    template="""You are SyntaxAI, a friendly Python expert assistant.
+
+Respond naturally to the user's message. Be conversational, warm, and helpful. If they greet you, greet them back and let them know you can help with Python questions. Keep it brief.
+
+User: {message}
+
+Response:""",
+    input_variables=["message"]
+)
+
+# --- RAG prompt (with context from docs) ---
+rag_prompt = PromptTemplate(
+    template="""You are SyntaxAI, a Python expert assistant.
 
 Answer the question clearly and neatly using this format:
 
@@ -41,17 +66,24 @@ Context:
 Question:
 {question}
 
-Answer:
-"""
-
-PROMPT = PromptTemplate(
-    template=prompt_template,
+Answer:""",
     input_variables=["context", "question"]
 )
 
 
 def ask_question(question):
-    # Step 1: Retrieve top-k from Pinecone
+    # Step 1: Route — is this chat or a real question?
+    route = llm.invoke(router_prompt.format(message=question)).content.strip().lower()
+
+    # Step 2: If casual chat, respond without RAG
+    if route == "chat":
+        response = llm.invoke(chat_prompt.format(message=question))
+        return {
+            "answer": response.content,
+            "sources": []
+        }
+
+    # Step 3: Retrieve top-k from Pinecone
     docs = vector_db.similarity_search(question, k=TOP_K)
 
     if not docs:
@@ -60,14 +92,14 @@ def ask_question(question):
             "sources": []
         }
 
-    # Step 2: Build context from retrieved docs
+    # Step 4: Build context from retrieved docs
     context = "\n\n---\n\n".join(doc.page_content for doc in docs)
 
-    # Step 3: Generate answer
-    formatted_prompt = PROMPT.format(context=context, question=question)
+    # Step 5: Generate answer
+    formatted_prompt = rag_prompt.format(context=context, question=question)
     response = llm.invoke(formatted_prompt)
 
-    # Step 4: Deduplicate sources
+    # Step 6: Deduplicate sources
     seen = set()
     unique_sources = []
     for doc in docs:
