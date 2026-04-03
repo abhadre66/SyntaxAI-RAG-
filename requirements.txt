@@ -8,3 +8,5 @@ python-dotenv
 tiktoken
 uvicorn
 fastapi
+pytest
+httpx

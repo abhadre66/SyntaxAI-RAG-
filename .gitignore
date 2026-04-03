@@ -9,7 +9,12 @@ data/
 vector_store/
 progress.md
 need_analysis.txt
+#####.pdf
+test.pdf
 
+
+####  .py
+generate_report.py
 # Distribution / packaging
 .Python
 build/

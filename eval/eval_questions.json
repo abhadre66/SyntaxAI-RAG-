@@ -1,0 +1,387 @@
+[
+  {
+    "id": 1,
+    "question": "What is a Python decorator?",
+    "query_type": "concept",
+    "expected_keywords": ["function", "wrap", "@"],
+    "preferred_sources": ["Python Docs", "Python StdLib", "RealPython"]
+  },
+  {
+    "id": 2,
+    "question": "How to read a CSV file in Python?",
+    "query_type": "howto",
+    "expected_keywords": ["csv", "open", "reader"],
+    "preferred_sources": ["Python Docs", "RealPython"]
+  },
+  {
+    "id": 3,
+    "question": "What is the difference between a list and a tuple?",
+    "query_type": "concept",
+    "expected_keywords": ["mutable", "immutable"],
+    "preferred_sources": ["Python Docs", "Python StdLib"]
+  },
+  {
+    "id": 4,
+    "question": "How to fix a TypeError in Python?",
+    "query_type": "error",
+    "expected_keywords": ["type", "error"],
+    "preferred_sources": ["StackOverflow", "RealPython"]
+  },
+  {
+    "id": 5,
+    "question": "Explain Python list comprehensions",
+    "query_type": "concept",
+    "expected_keywords": ["list", "comprehension", "for"],
+    "preferred_sources": ["Python Docs", "RealPython"]
+  },
+  {
+    "id": 6,
+    "question": "How to install packages with pip?",
+    "query_type": "howto",
+    "expected_keywords": ["pip", "install"],
+    "preferred_sources": ["Python Docs", "RealPython"]
+  },
+  {
+    "id": 7,
+    "question": "What is the GIL in Python?",
+    "query_type": "concept",
+    "expected_keywords": ["global", "interpreter", "lock", "thread"],
+    "preferred_sources": ["Python Docs", "RealPython", "PEPs"]
+  },
+  {
+    "id": 8,
+    "question": "How to handle exceptions in Python?",
+    "query_type": "howto",
+    "expected_keywords": ["try", "except"],
+    "preferred_sources": ["Python Docs", "RealPython"]
+  },
+  {
+    "id": 9,
+    "question": "What is a Python generator?",
+    "query_type": "concept",
+    "expected_keywords": ["yield", "generator", "iterator"],
+    "preferred_sources": ["Python Docs", "RealPython"]
+  },
+  {
+    "id": 10,
+    "question": "How to sort a dictionary by value?",
+    "query_type": "howto",
+    "expected_keywords": ["sorted", "dict", "key"],
+    "preferred_sources": ["RealPython", "Python Docs"]
+  },
+  {
+    "id": 11,
+    "question": "Explain Python's async and await",
+    "query_type": "concept",
+    "expected_keywords": ["async", "await", "coroutine"],
+    "preferred_sources": ["Python Docs", "RealPython"]
+  },
+  {
+    "id": 12,
+    "question": "IndexError: list index out of range",
+    "query_type": "error",
+    "expected_keywords": ["index", "range", "list"],
+    "preferred_sources": ["StackOverflow"]
+  },
+  {
+    "id": 13,
+    "question": "How to use virtual environments in Python?",
+    "query_type": "howto",
+    "expected_keywords": ["venv", "virtual", "activate"],
+    "preferred_sources": ["Python Docs", "RealPython"]
+  },
+  {
+    "id": 14,
+    "question": "What is the difference between == and is in Python?",
+    "query_type": "concept",
+    "expected_keywords": ["equality", "identity", "is", "=="],
+    "preferred_sources": ["Python Docs", "RealPython"]
+  },
+  {
+    "id": 15,
+    "question": "How to write a class in Python?",
+    "query_type": "howto",
+    "expected_keywords": ["class", "self", "__init__"],
+    "preferred_sources": ["Python Docs", "RealPython"]
+  },
+  {
+    "id": 16,
+    "question": "What are Python f-strings?",
+    "query_type": "concept",
+    "expected_keywords": ["f-string", "format", "f\""],
+    "preferred_sources": ["Python Docs", "PEPs", "RealPython"]
+  },
+  {
+    "id": 17,
+    "question": "How to work with JSON in Python?",
+    "query_type": "howto",
+    "expected_keywords": ["json", "loads", "dumps"],
+    "preferred_sources": ["Python Docs", "Python StdLib"]
+  },
+  {
+    "id": 18,
+    "question": "What is a lambda function in Python?",
+    "query_type": "concept",
+    "expected_keywords": ["lambda", "anonymous", "function"],
+    "preferred_sources": ["Python Docs", "RealPython"]
+  },
+  {
+    "id": 19,
+    "question": "KeyError when accessing dictionary",
+    "query_type": "error",
+    "expected_keywords": ["key", "dict", "get"],
+    "preferred_sources": ["StackOverflow", "Python Docs"]
+  },
+  {
+    "id": 20,
+    "question": "How to use Python dataclasses?",
+    "query_type": "howto",
+    "expected_keywords": ["dataclass", "@dataclass", "field"],
+    "preferred_sources": ["Python Docs", "RealPython"]
+  },
+  {
+    "id": 21,
+    "question": "Explain Python type hints",
+    "query_type": "concept",
+    "expected_keywords": ["type", "hint", "annotation", "typing"],
+    "preferred_sources": ["Python Docs", "PEPs", "RealPython"]
+  },
+  {
+    "id": 22,
+    "question": "How to make HTTP requests in Python?",
+    "query_type": "howto",
+    "expected_keywords": ["requests", "get", "post", "http"],
+    "preferred_sources": ["RealPython", "Python Docs"]
+  },
+  {
+    "id": 23,
+    "question": "What is the __init__ method?",
+    "query_type": "concept",
+    "expected_keywords": ["__init__", "constructor", "self"],
+    "preferred_sources": ["Python Docs", "RealPython"]
+  },
+  {
+    "id": 24,
+    "question": "How to use regular expressions in Python?",
+    "query_type": "howto",
+    "expected_keywords": ["re", "regex", "match", "search", "pattern"],
+    "preferred_sources": ["Python Docs", "Python StdLib"]
+  },
+  {
+    "id": 25,
+    "question": "AttributeError: object has no attribute",
+    "query_type": "error",
+    "expected_keywords": ["attribute", "object"],
+    "preferred_sources": ["StackOverflow"]
+  },
+  {
+    "id": 26,
+    "question": "What is Python's with statement?",
+    "query_type": "concept",
+    "expected_keywords": ["with", "context", "manager"],
+    "preferred_sources": ["Python Docs", "RealPython"]
+  },
+  {
+    "id": 27,
+    "question": "How to create a REST API with FastAPI?",
+    "query_type": "howto",
+    "expected_keywords": ["fastapi", "api", "endpoint"],
+    "preferred_sources": ["RealPython"]
+  },
+  {
+    "id": 28,
+    "question": "Explain Python's map, filter, and reduce",
+    "query_type": "concept",
+    "expected_keywords": ["map", "filter", "reduce"],
+    "preferred_sources": ["Python Docs", "RealPython"]
+  },
+  {
+    "id": 29,
+    "question": "How to read and write files in Python?",
+    "query_type": "howto",
+    "expected_keywords": ["open", "read", "write", "file"],
+    "preferred_sources": ["Python Docs", "RealPython"]
+  },
+  {
+    "id": 30,
+    "question": "ImportError: No module named",
+    "query_type": "error",
+    "expected_keywords": ["import", "module", "install"],
+    "preferred_sources": ["StackOverflow"]
+  },
+  {
+    "id": 31,
+    "question": "What is Python's __name__ == '__main__'?",
+    "query_type": "concept",
+    "expected_keywords": ["__name__", "__main__", "script", "module"],
+    "preferred_sources": ["Python Docs", "RealPython"]
+  },
+  {
+    "id": 32,
+    "question": "How to use Python's collections module?",
+    "query_type": "howto",
+    "expected_keywords": ["collections", "Counter", "defaultdict", "namedtuple"],
+    "preferred_sources": ["Python Docs", "Python StdLib"]
+  },
+  {
+    "id": 33,
+    "question": "What is PEP 8?",
+    "query_type": "concept",
+    "expected_keywords": ["style", "guide", "convention", "PEP"],
+    "preferred_sources": ["PEPs", "Python Docs"]
+  },
+  {
+    "id": 34,
+    "question": "How to use Python's argparse module?",
+    "query_type": "howto",
+    "expected_keywords": ["argparse", "argument", "parser", "command"],
+    "preferred_sources": ["Python Docs", "Python StdLib"]
+  },
+  {
+    "id": 35,
+    "question": "Explain Python's inheritance and polymorphism",
+    "query_type": "concept",
+    "expected_keywords": ["inherit", "class", "parent", "child"],
+    "preferred_sources": ["Python Docs", "RealPython"]
+  },
+  {
+    "id": 36,
+    "question": "RecursionError: maximum recursion depth exceeded",
+    "query_type": "error",
+    "expected_keywords": ["recursion", "depth", "limit"],
+    "preferred_sources": ["StackOverflow"]
+  },
+  {
+    "id": 37,
+    "question": "How to use Python's logging module?",
+    "query_type": "howto",
+    "expected_keywords": ["logging", "logger", "debug", "info"],
+    "preferred_sources": ["Python Docs", "Python StdLib"]
+  },
+  {
+    "id": 38,
+    "question": "What is a Python dictionary comprehension?",
+    "query_type": "concept",
+    "expected_keywords": ["dict", "comprehension"],
+    "preferred_sources": ["Python Docs", "RealPython"]
+  },
+  {
+    "id": 39,
+    "question": "How to implement multithreading in Python?",
+    "query_type": "howto",
+    "expected_keywords": ["thread", "threading", "concurrent"],
+    "preferred_sources": ["Python Docs", "RealPython"]
+  },
+  {
+    "id": 40,
+    "question": "What are Python magic methods / dunder methods?",
+    "query_type": "concept",
+    "expected_keywords": ["__", "dunder", "magic", "special"],
+    "preferred_sources": ["Python Docs", "RealPython"]
+  },
+  {
+    "id": 41,
+    "question": "How to use enumerate in Python?",
+    "query_type": "howto",
+    "expected_keywords": ["enumerate", "index", "loop"],
+    "preferred_sources": ["Python Docs", "RealPython"]
+  },
+  {
+    "id": 42,
+    "question": "ValueError: invalid literal for int()",
+    "query_type": "error",
+    "expected_keywords": ["value", "int", "convert"],
+    "preferred_sources": ["StackOverflow"]
+  },
+  {
+    "id": 43,
+    "question": "What is monkey patching in Python?",
+    "query_type": "concept",
+    "expected_keywords": ["monkey", "patch", "runtime", "modify"],
+    "preferred_sources": ["RealPython"]
+  },
+  {
+    "id": 44,
+    "question": "How to copy objects in Python?",
+    "query_type": "howto",
+    "expected_keywords": ["copy", "deepcopy", "shallow"],
+    "preferred_sources": ["Python Docs", "Python StdLib"]
+  },
+  {
+    "id": 45,
+    "question": "Explain Python's property decorator",
+    "query_type": "concept",
+    "expected_keywords": ["property", "@property", "getter", "setter"],
+    "preferred_sources": ["Python Docs", "RealPython"]
+  },
+  {
+    "id": 46,
+    "question": "How to write unit tests with pytest?",
+    "query_type": "howto",
+    "expected_keywords": ["pytest", "test", "assert"],
+    "preferred_sources": ["RealPython"]
+  },
+  {
+    "id": 47,
+    "question": "What is a Python metaclass?",
+    "query_type": "concept",
+    "expected_keywords": ["metaclass", "type", "class"],
+    "preferred_sources": ["Python Docs", "RealPython"]
+  },
+  {
+    "id": 48,
+    "question": "How to use Python's os and pathlib modules?",
+    "query_type": "howto",
+    "expected_keywords": ["os", "pathlib", "path", "file"],
+    "preferred_sources": ["Python Docs", "Python StdLib"]
+  },
+  {
+    "id": 49,
+    "question": "SyntaxError: unexpected EOF while parsing",
+    "query_type": "error",
+    "expected_keywords": ["syntax", "EOF", "parsing"],
+    "preferred_sources": ["StackOverflow"]
+  },
+  {
+    "id": 50,
+    "question": "What is the walrus operator in Python?",
+    "query_type": "concept",
+    "expected_keywords": ["walrus", ":=", "assignment", "expression"],
+    "preferred_sources": ["Python Docs", "PEPs"]
+  },
+  {
+    "id": 51,
+    "question": "How to use Python's itertools module?",
+    "query_type": "howto",
+    "expected_keywords": ["itertools", "chain", "combinations", "permutations"],
+    "preferred_sources": ["Python Docs", "Python StdLib"]
+  },
+  {
+    "id": 52,
+    "question": "Explain Python closures",
+    "query_type": "concept",
+    "expected_keywords": ["closure", "enclosing", "scope", "function"],
+    "preferred_sources": ["Python Docs", "RealPython"]
+  },
+  {
+    "id": 53,
+    "question": "How to use *args and **kwargs?",
+    "query_type": "howto",
+    "expected_keywords": ["args", "kwargs", "unpack"],
+    "preferred_sources": ["Python Docs", "RealPython"]
+  },
+  {
+    "id": 54,
+    "question": "UnicodeDecodeError when reading file",
+    "query_type": "error",
+    "expected_keywords": ["unicode", "encoding", "utf"],
+    "preferred_sources": ["StackOverflow"]
+  },
+  {
+    "id": 55,
+    "question": "What is the difference between staticmethod and classmethod?",
+    "query_type": "concept",
+    "expected_keywords": ["static", "class", "method", "cls", "self"],
+    "preferred_sources": ["Python Docs", "RealPython"]
+  }
+]

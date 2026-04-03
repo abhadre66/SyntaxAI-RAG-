@@ -1,0 +1,73 @@
+{
+  "summary": {
+    "total": 5,
+    "keyword_hits": 13,
+    "keyword_total": 13,
+    "source_hits": 4,
+    "source_total": 5,
+    "empty_retrievals": 0,
+    "errors": 0,
+    "total_time": 70.25065803527832
+  },
+  "details": [
+    {
+      "id": 1,
+      "question": "What is a Python decorator?",
+      "keyword_score": 1.0,
+      "source_match": true,
+      "sources_returned": [
+        "GeeksforGeeks",
+        "RealPython"
+      ],
+      "time": 12.01
+    },
+    {
+      "id": 2,
+      "question": "How to read a CSV file in Python?",
+      "keyword_score": 1.0,
+      "source_match": true,
+      "sources_returned": [
+        "Python Docs",
+        "RealPython",
+        "RealPython"
+      ],
+      "time": 13.91
+    },
+    {
+      "id": 3,
+      "question": "What is the difference between a list and a tuple?",
+      "keyword_score": 1.0,
+      "source_match": false,
+      "sources_returned": [
+        "RealPython",
+        "RealPython",
+        "RealPython"
+      ],
+      "time": 10.34
+    },
+    {
+      "id": 4,
+      "question": "How to fix a TypeError in Python?",
+      "keyword_score": 1.0,
+      "source_match": true,
+      "sources_returned": [
+        "RealPython",
+        "Python StdLib",
+        "RealPython"
+      ],
+      "time": 10.95
+    },
+    {
+      "id": 5,
+      "question": "Explain Python list comprehensions",
+      "keyword_score": 1.0,
+      "source_match": true,
+      "sources_returned": [
+        "Python Docs",
+        "Python Docs",
+        "Python Docs"
+      ],
+      "time": 23.04
+    }
+  ]
+}

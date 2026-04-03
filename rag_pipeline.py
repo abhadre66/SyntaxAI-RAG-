@@ -1,12 +1,15 @@
 from dotenv import load_dotenv
 import os
 import re
+import logging
 
 from langchain_openai import OpenAIEmbeddings, ChatOpenAI
 from langchain_pinecone import PineconeVectorStore
 from langchain_core.prompts import PromptTemplate
 
 load_dotenv()
+
+logger = logging.getLogger(__name__)
 
 # --- Embeddings & Vector Store ---
 embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
@@ -49,6 +52,8 @@ QUERY_SOURCE_BONUS = {
     "concept": {"Python Docs": 3, "Python StdLib": 3, "PEPs": 2},
     "howto":   {"RealPython": 3, "Python Docs": 1, "GeeksforGeeks": 1},
 }
+
+FALLBACK_ANSWER = "Sorry, something went wrong while processing your question. Please try again."
 
 
 def classify_query_type(question):
@@ -157,62 +162,87 @@ def condense_question(question, chat_history):
         for msg in chat_history[-6:]  # last 3 exchanges max
     )
 
-    response = llm.invoke(condense_prompt.format(
-        chat_history=history_text,
-        question=question
-    ))
-    return response.content.strip()
+    try:
+        response = llm.invoke(condense_prompt.format(
+            chat_history=history_text,
+            question=question
+        ))
+        return response.content.strip()
+    except Exception as e:
+        logger.warning("Failed to condense question, using original: %s", e)
+        return question
 
 
 def ask_question(question, chat_history=None):
-    # Step 1: Route — is this chat or a real question?
-    route = llm.invoke(router_prompt.format(message=question)).content.strip().lower()
+    try:
+        # Step 1: Route — is this chat or a real question?
+        route_response = llm.invoke(router_prompt.format(message=question))
+        route = route_response.content.strip().lower()
 
-    # Step 2: If casual chat, respond without RAG
-    if route == "chat":
-        response = llm.invoke(chat_prompt.format(message=question))
+        # Handle unexpected router output — default to RAG
+        if route not in ("chat", "question"):
+            logger.warning("Router returned unexpected value '%s', defaulting to question", route)
+            route = "question"
+
+        # Step 2: If casual chat, respond without RAG
+        if route == "chat":
+            response = llm.invoke(chat_prompt.format(message=question))
+            return {
+                "answer": response.content,
+                "sources": []
+            }
+
+        # Step 3: Condense follow-up into standalone question
+        standalone_question = condense_question(question, chat_history)
+
+        # Step 4: Classify query type for source routing
+        query_type = classify_query_type(standalone_question)
+
+        # Step 5: Retrieve top-K from Pinecone (with relevance scores)
+        try:
+            docs_with_scores = vector_db.similarity_search_with_relevance_scores(
+                standalone_question, k=RETRIEVAL_K
+            )
+        except Exception as e:
+            logger.error("Pinecone retrieval failed: %s", e)
+            return {
+                "answer": "I'm having trouble searching the documentation right now. Please try again in a moment.",
+                "sources": []
+            }
+
+        if not docs_with_scores:
+            return {
+                "answer": "I couldn't find relevant information to answer that question.",
+                "sources": []
+            }
+
+        # Step 6: Re-rank by source authority + query routing
+        docs = rerank_by_source(docs_with_scores, query_type)
+
+        # Step 7: Build context from re-ranked docs
+        context = "\n\n---\n\n".join(doc.page_content for doc in docs)
+
+        # Step 8: Generate answer
+        formatted_prompt = rag_prompt.format(context=context, question=standalone_question)
+        response = llm.invoke(formatted_prompt)
+
+        # Step 9: Deduplicate sources
+        seen = set()
+        unique_sources = []
+        for doc in docs:
+            content = doc.page_content[:200]
+            if content not in seen:
+                seen.add(content)
+                unique_sources.append(doc)
+
         return {
             "answer": response.content,
-            "sources": []
+            "sources": unique_sources
         }
 
-    # Step 3: Condense follow-up into standalone question
-    standalone_question = condense_question(question, chat_history)
-
-    # Step 4: Classify query type for source routing
-    query_type = classify_query_type(standalone_question)
-
-    # Step 5: Retrieve top-K from Pinecone (with relevance scores)
-    docs_with_scores = vector_db.similarity_search_with_relevance_scores(
-        standalone_question, k=RETRIEVAL_K
-    )
-
-    if not docs_with_scores:
+    except Exception as e:
+        logger.error("ask_question failed: %s", e)
         return {
-            "answer": "I couldn't find relevant information to answer that question.",
+            "answer": FALLBACK_ANSWER,
             "sources": []
         }
-
-    # Step 6: Re-rank by source authority + query routing
-    docs = rerank_by_source(docs_with_scores, query_type)
-
-    # Step 7: Build context from re-ranked docs
-    context = "\n\n---\n\n".join(doc.page_content for doc in docs)
-
-    # Step 8: Generate answer
-    formatted_prompt = rag_prompt.format(context=context, question=standalone_question)
-    response = llm.invoke(formatted_prompt)
-
-    # Step 9: Deduplicate sources
-    seen = set()
-    unique_sources = []
-    for doc in docs:
-        content = doc.page_content[:200]
-        if content not in seen:
-            seen.add(content)
-            unique_sources.append(doc)
-
-    return {
-        "answer": response.content,
-        "sources": unique_sources
-    }
