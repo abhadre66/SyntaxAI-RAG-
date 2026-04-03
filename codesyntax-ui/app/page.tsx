@@ -73,17 +73,25 @@ export default function Home() {
     if (!input.trim() || isLoading) return;
 
     const userMessage = { role: "user", content: input };
-    setMessages((prev) => [...prev, userMessage]);
+    const updatedMessages = [...messages, userMessage];
+    setMessages(updatedMessages);
     setIsLoading(true);
 
     try {
       const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+
+      // Send last 6 messages as chat history (up to 3 exchanges)
+      const history = updatedMessages.slice(-7, -1).map((m) => ({
+        role: m.role,
+        content: m.content,
+      }));
+
       const res = await fetch(`${API_URL}/chat`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ question: input }),
+        body: JSON.stringify({ question: input, messages: history }),
       });
 
       const data = await res.json();

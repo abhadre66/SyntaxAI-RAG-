@@ -8,6 +8,7 @@ __pycache__/
 data/
 vector_store/
 progress.md
+need_analysis.txt
 
 # Distribution / packaging
 .Python

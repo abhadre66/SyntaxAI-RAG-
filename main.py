@@ -16,8 +16,13 @@ app.add_middleware(
     allow_headers=["Content-Type"],
 )
 
+class Message(BaseModel):
+    role: str
+    content: str
+
 class Query(BaseModel):
     question: str
+    messages: list[Message] = []
 
 @app.post("/chat")
 def chat(query: Query):
@@ -25,7 +30,8 @@ def chat(query: Query):
     if not question or len(question) > 1000:
         return {"answer": "Please provide a valid question (1-1000 characters).", "sources": []}
 
-    result = ask_question(question)
+    chat_history = [{"role": m.role, "content": m.content} for m in query.messages]
+    result = ask_question(question, chat_history=chat_history)
 
     docs = result.get("source_documents", [])
 
