@@ -4,10 +4,14 @@ import pytest
 from unittest.mock import patch, MagicMock
 from langchain_core.documents import Document
 
-
-# ── classify_query_type ──────────────────────────────────────────────
-
-from rag_pipeline import classify_query_type
+from rag_pipeline import (
+    classify_query_type,
+    rerank_by_source,
+    FINAL_K,
+    condense_question,
+    ask_question,
+    FALLBACK_ANSWER,
+)
 
 
 @pytest.mark.parametrize("query, expected", [
@@ -40,8 +44,6 @@ def test_classify_query_type(query, expected):
 
 
 # ── rerank_by_source ─────────────────────────────────────────────────
-
-from rag_pipeline import rerank_by_source, FINAL_K
 
 
 def _make_doc(source, content="test content"):
@@ -128,8 +130,6 @@ def test_rerank_handles_unknown_source():
 
 # ── condense_question ────────────────────────────────────────────────
 
-from rag_pipeline import condense_question
-
 
 def test_condense_returns_original_when_no_history():
     result = condense_question("what is a decorator", None)
@@ -166,8 +166,6 @@ def test_condense_falls_back_on_llm_error(mock_llm):
 
 
 # ── ask_question ─────────────────────────────────────────────────────
-
-from rag_pipeline import ask_question, FALLBACK_ANSWER
 
 
 @patch("rag_pipeline.vector_db")
